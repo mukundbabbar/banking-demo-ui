@@ -1,5 +1,6 @@
 import os
 import argparse
+import random
 import logging
 from flask import Flask, render_template, redirect, url_for, request, jsonify
 
@@ -231,11 +232,16 @@ def api_loans():
 def api_loan_apply():
     """Demo loan application endpoint"""
     data = request.get_json()
+
+    # Generate a random 5-digit number
+    random_id = random.randint(10000, 99999)
+    application_id = f"LN-2025-{random_id}"
+
     # Always approve loan application for demo
     return jsonify({
         "success": True,
         "message": "Loan application submitted successfully",
-        "applicationId": "LN-2025-67890",
+        "applicationId": application_id,
         "status": "pending"
     })
 
