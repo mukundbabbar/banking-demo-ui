@@ -25,7 +25,7 @@ RUN chmod +x /app/start.sh
 EXPOSE 81
 
 # Set default environment variable (can be overridden)
-ENV EXTERNAL_URL=http://example.com
+#ENV ENDPOINT_URL=http://example.com
 
 # Start the app
 ENTRYPOINT ["/app/start.sh"]
