@@ -1,0 +1,223 @@
+{% extends 'base.html' %}
+
+{% block title %}Loans - Secure Banking{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Loan Services</h4>
+                <p class="card-text">Apply for a loan or check your existing loan status.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <!-- Existing Loans -->
+    <div class="col-lg-6 mb-4">
+        <div class="card h-100">
+            <div class="card-header">
+                <h5 class="card-title mb-0">Your Loans</h5>
+            </div>
+            <div class="card-body">
+                <div id="existingLoans">
+                    <div class="text-center p-4">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                        <p class="mt-2">Loading loan information...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Loan Application Form -->
+    <div class="col-lg-6 mb-4">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">Apply for a Loan</h5>
+            </div>
+            <div class="card-body">
+                <form id="loanApplicationForm">
+                    <div class="mb-3">
+                        <label for="loanAmount" class="form-label">Loan Amount</label>
+                        <div class="input-group">
+                            <span class="input-group-text">$</span>
+                            <input type="number" class="form-control" id="loanAmount" name="loanAmount" placeholder="Enter loan amount" required min="1000">
+                        </div>
+                        <div id="loanAmount-error" class="error-message"></div>
+                        <div class="form-text">Minimum loan amount: $1,000</div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="loanPurpose" class="form-label">Loan Purpose</label>
+                        <select class="form-select" id="loanPurpose" name="loanPurpose" required>
+                            <option value="" selected disabled>Select purpose</option>
+                            <option value="home">Home Purchase/Renovation</option>
+                            <option value="education">Education</option>
+                            <option value="vehicle">Vehicle Purchase</option>
+                            <option value="personal">Personal Expenses</option>
+                            <option value="debt">Debt Consolidation</option>
+                            <option value="business">Business</option>
+                            <option value="other">Other</option>
+                        </select>
+                        <div id="loanPurpose-error" class="error-message"></div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="loanTerm" class="form-label">Loan Term (months)</label>
+                        <select class="form-select" id="loanTerm" name="loanTerm" required>
+                            <option value="" selected disabled>Select term</option>
+                            <option value="12">12 months (1 year)</option>
+                            <option value="24">24 months (2 years)</option>
+                            <option value="36">36 months (3 years)</option>
+                            <option value="48">48 months (4 years)</option>
+                            <option value="60">60 months (5 years)</option>
+                            <option value="120">120 months (10 years)</option>
+                            <option value="180">180 months (15 years)</option>
+                            <option value="240">240 months (20 years)</option>
+                            <option value="360">360 months (30 years)</option>
+                        </select>
+                        <div id="loanTerm-error" class="error-message"></div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="employmentStatus" class="form-label">Employment Status</label>
+                        <select class="form-select" id="employmentStatus" name="employmentStatus" required>
+                            <option value="" selected disabled>Select status</option>
+                            <option value="fullTime">Full-time Employed</option>
+                            <option value="partTime">Part-time Employed</option>
+                            <option value="selfEmployed">Self-Employed</option>
+                            <option value="retired">Retired</option>
+                            <option value="student">Student</option>
+                            <option value="unemployed">Unemployed</option>
+                        </select>
+                        <div id="employmentStatus-error" class="error-message"></div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label for="annualIncome" class="form-label">Annual Income</label>
+                        <div class="input-group">
+                            <span class="input-group-text">$</span>
+                            <input type="number" class="form-control" id="annualIncome" name="annualIncome" placeholder="Enter annual income" required min="0">
+                        </div>
+                        <div id="annualIncome-error" class="error-message"></div>
+                    </div>
+                    
+                    <div class="form-check mb-4">
+                        <input class="form-check-input" type="checkbox" id="termsAgreement" required>
+                        <label class="form-check-label" for="termsAgreement">
+                            I agree to the <a href="#" data-bs-toggle="modal" data-bs-target="#termsModal">terms and conditions</a>
+                        </label>
+                        <div id="termsAgreement-error" class="error-message"></div>
+                    </div>
+                    
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary">Submit Loan Application</button>
+                    </div>
+                </form>
+                
+                <!-- Loan Confirmation (hidden by default) -->
+                <div id="loanConfirmation" class="text-center my-4 d-none">
+                    <div class="mb-3">
+                        <i class="fas fa-check-circle fa-4x text-success"></i>
+                    </div>
+                    <h4>Application Submitted</h4>
+                    <p>Your loan application has been successfully submitted. We will review your application and contact you soon.</p>
+                    <p><strong>Application Reference:</strong> <span id="applicationReference">LN-2023-12345</span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Loan Calculator -->
+<div class="row">
+    <div class="col-12 mb-4">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">Loan Calculator</h5>
+            </div>
+            <div class="card-body">
+                <form id="loanCalculatorForm" class="row">
+                    <div class="col-md-4 mb-3">
+                        <label for="calcLoanAmount" class="form-label">Loan Amount</label>
+                        <div class="input-group">
+                            <span class="input-group-text">$</span>
+                            <input type="number" class="form-control" id="calcLoanAmount" value="10000" min="1000" step="1000">
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-4 mb-3">
+                        <label for="calcLoanTerm" class="form-label">Loan Term (months)</label>
+                        <input type="number" class="form-control" id="calcLoanTerm" value="36" min="12" max="360">
+                    </div>
+                    
+                    <div class="col-md-4 mb-3">
+                        <label for="calcInterestRate" class="form-label">Interest Rate (%)</label>
+                        <input type="number" class="form-control" id="calcInterestRate" value="5.5" min="0.1" max="30" step="0.1">
+                    </div>
+                </form>
+                
+                <hr>
+                
+                <div class="row text-center mt-4">
+                    <div class="col-md-4 mb-3">
+                        <h6>Monthly Payment</h6>
+                        <h3 id="monthlyPayment" class="fw-bold">$0.00</h3>
+                    </div>
+                    
+                    <div class="col-md-4 mb-3">
+                        <h6>Total Interest</h6>
+                        <h3 id="totalInterest" class="fw-bold">$0.00</h3>
+                    </div>
+                    
+                    <div class="col-md-4 mb-3">
+                        <h6>Total Repayment</h6>
+                        <h3 id="totalRepayment" class="fw-bold">$0.00</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Terms and Conditions Modal -->
+<div class="modal fade" id="termsModal" tabindex="-1" aria-labelledby="termsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="termsModalLabel">Loan Terms and Conditions</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <h6>1. Loan Agreement</h6>
+                <p>This agreement is between the borrower and Secure Banking (the lender). By submitting a loan application, the borrower agrees to all terms and conditions outlined in this agreement.</p>
+                
+                <h6>2. Loan Details</h6>
+                <p>The loan amount, interest rate, term, and payment schedule will be provided in the loan approval documentation. Interest rates are subject to change based on market conditions and borrower creditworthiness.</p>
+                
+                <h6>3. Repayment</h6>
+                <p>The borrower agrees to repay the loan amount plus interest according to the agreed payment schedule. Payments not received by the due date will be considered late and may incur additional fees.</p>
+                
+                <h6>4. Early Repayment</h6>
+                <p>The borrower may repay the loan in full or make additional payments at any time without penalty. Early payments will first be applied to any outstanding fees or charges, then to accrued interest, and finally to the principal balance.</p>
+                
+                <h6>5. Default</h6>
+                <p>If the borrower fails to make payments as scheduled, the loan may be considered in default. The lender reserves the right to demand full repayment of the outstanding loan balance, seek legal remedies, and report the default to credit bureaus.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">I Agree</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/loans.js') }}"></script>
+{% endblock %}

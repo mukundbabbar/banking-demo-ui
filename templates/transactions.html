@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+
+{% block title %}Transactions - Secure Banking{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Transaction History</h4>
+                <p class="card-text">View and manage your account transactions.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <!-- Filters -->
+    <div class="col-lg-3 mb-4">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">Filters</h5>
+            </div>
+            <div class="card-body">
+                <form id="transactionFilterForm">
+                    <div class="mb-3">
+                        <label for="dateFrom" class="form-label">From Date</label>
+                        <input type="date" class="form-control" id="dateFrom" name="dateFrom">
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="dateTo" class="form-label">To Date</label>
+                        <input type="date" class="form-control" id="dateTo" name="dateTo">
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="transactionType" class="form-label">Transaction Type</label>
+                        <select class="form-select" id="transactionType" name="transactionType">
+                            <option value="all" selected>All Types</option>
+                            <option value="debit">Debits</option>
+                            <option value="credit">Credits</option>
+                        </select>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="minAmount" class="form-label">Minimum Amount</label>
+                        <div class="input-group">
+                            <span class="input-group-text">$</span>
+                            <input type="number" class="form-control" id="minAmount" name="minAmount" placeholder="Min" min="0">
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="maxAmount" class="form-label">Maximum Amount</label>
+                        <div class="input-group">
+                            <span class="input-group-text">$</span>
+                            <input type="number" class="form-control" id="maxAmount" name="maxAmount" placeholder="Max" min="0">
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label for="searchTerm" class="form-label">Search</label>
+                        <input type="text" class="form-control" id="searchTerm" name="searchTerm" placeholder="Search transactions...">
+                    </div>
+                    
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary">Apply Filters</button>
+                        <button type="button" id="resetFilters" class="btn btn-outline-secondary">Reset Filters</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <!-- Transaction Summary -->
+        <div class="card mt-4">
+            <div class="card-header">
+                <h5 class="card-title mb-0">Summary</h5>
+            </div>
+            <div class="card-body" id="transactionSummary">
+                <p class="text-center text-muted">Apply filters to see summary</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Transaction List -->
+    <div class="col-lg-9 mb-4">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="card-title mb-0">Transactions</h5>
+                <div>
+                    <button id="exportTransactions" class="btn btn-outline-primary btn-sm">
+                        <i class="fas fa-download me-1"></i> Export
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
+                <div id="transactionsContainer">
+                    <div class="text-center p-4">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                        <p class="mt-2">Loading transactions...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/transactions.js') }}"></script>
+{% endblock %}

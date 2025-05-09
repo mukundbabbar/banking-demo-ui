@@ -1,0 +1,137 @@
+/* Additional custom styles to complement Bootstrap */
+
+/* Loader animation */
+.loader-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none;
+    z-index: 9999;
+    justify-content: center;
+    align-items: center;
+    pointer-events: none; /* Allow clicks to pass through */
+}
+
+.loader {
+    display: none;
+    width: 50px;
+    height: 50px;
+    border: 5px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: var(--bs-primary);
+    animation: spin 1s ease-in-out infinite;
+    pointer-events: none; /* Allow clicks to pass through */
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Toast notifications */
+.toast-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+    pointer-events: none; /* Allow clicks to pass through container */
+}
+
+/* But allow clicks on the actual toast */
+.toast {
+    pointer-events: auto;
+}
+
+/* Transaction items */
+.transaction-item {
+    transition: all 0.2s ease;
+}
+
+.transaction-item:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+/* Account card styling */
+.account-card {
+    border-radius: 10px;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+}
+
+.account-card:hover {
+    transform: translateY(-5px);
+}
+
+/* Balance display */
+.balance-display {
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+/* Quick actions buttons */
+.quick-action {
+    border-radius: 12px;
+    padding: 15px;
+    margin: 10px 0;
+    transition: all 0.3s ease;
+}
+
+.quick-action:hover {
+    transform: scale(1.05);
+}
+
+/* Banking app specific styles */
+.app-container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.app-content {
+    flex: 1;
+}
+
+/* Login form specific styles */
+.login-container {
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.bank-logo {
+    max-width: 200px;
+    margin-bottom: 30px;
+}
+
+/* Profile section */
+.profile-avatar {
+    width: 100px;
+    height: 100px;
+    background-color: var(--bs-secondary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    margin: 0 auto 20px;
+}
+
+/* Form element focus styles */
+.form-control:focus, .form-select:focus {
+    box-shadow: 0 0 0 0.25rem rgba(var(--bs-primary-rgb), 0.25);
+}
+
+/* Error message styling */
+.error-message {
+    color: var(--bs-danger);
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+}
+
+/* Success message styling */
+.success-message {
+    color: var(--bs-success);
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+}
