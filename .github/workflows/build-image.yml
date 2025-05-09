@@ -1,0 +1,43 @@
+name: Build and Push Docker Image
+
+on:
+  push:
+    branches:
+      - main  # Trigger this on pushes to the 'main' branch.
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout the repository
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # Set up Docker Buildx for better caching and performance
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      # Set up Docker versioning (incremental version using a random number)
+      - name: Generate random version
+        id: version
+        run: echo "VERSION=$(date +%Y%m%d%H%M%S)-$RANDOM" >> $GITHUB_ENV
+
+      # Build Docker image with random version as the tag
+      - name: Build Docker image
+        run: |
+          docker build -t mukundbabbar/banking-demo-ui:${{ env.VERSION }} .
+          docker build -t mukundbabbar/banking-demo-ui:latest .  # Tag the image as latest
+          docker images  # Check the built images
+      # Log in to Docker Hub
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+
+      # Push Docker image to Docker Hub with both the versioned and latest tags
+      - name: Push Docker image to Docker Hub
+        run: |
+          docker push mukundbabbar/banking-demo-ui:${{ env.VERSION }}
+          docker push mukundbabbar/banking-demo-ui:latest  # Push the latest tag
