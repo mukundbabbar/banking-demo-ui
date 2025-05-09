@@ -103,6 +103,9 @@ function setupLoanApplicationForm() {
             // Clear form or hide it
             loanForm.reset();
             
+            //set loan id number for UI
+            document.getElementById("applicationReference").textContent = response.applicationId;
+            
             // Show application confirmation
             const confirmationElement = document.getElementById('loanConfirmation');
             if (confirmationElement) {
