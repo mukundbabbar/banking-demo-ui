@@ -13,6 +13,9 @@ psycopg2-binary==2.9.9" > requirements.txt
 
 # Install dependencies
 RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install "splunk-opentelemetry[all]"
+#RUN opentelemetry-bootstrap -a install
+#RUN export OTEL_SERVICE_NAME=banking
 
 # Copy application code
 COPY . .
