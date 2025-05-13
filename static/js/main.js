@@ -50,15 +50,14 @@ async function trackExternalApiCall(endpoint) {
             // ==== AppDynamics: Begin userData injection ====
             try {
                 const parsedUrl = new URL(url, window.location.origin);
-                 const appId = parsedUrl.searchParams.get("appId");
+                const appId = parsedUrl.searchParams.get("appId");
                 console.log("----Adding user data: " + appId);
-                console.log(window.adrum);
-                 if (window.adrum?.setUserData && appId) {
-                    adrum.setUserData("appId", appId);
-                    console.log("---Adding done ")
+                const config = window['adrum-config'];
+                if (!config.userData) {
+                    config.userData = {}; // Initialize userData if not already set
                 }
-                console.log("---New value for adrum ")
-                console.log(window.adrum);
+                config.userData.appId = appId;
+                console.log("User data set: appId = " + appId);
             } catch (e) {
                     console.warn("Failed to parse URL or set AppD userData:", e);
             }
