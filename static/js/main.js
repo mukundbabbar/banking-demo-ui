@@ -45,6 +45,22 @@ async function trackExternalApiCall(endpoint) {
             // Make a silent fetch request - we don't need the response
             const url = `${config.externalApiUrl}${endpoint}`;
             console.log(`Tracking call to: ${url}`);
+            
+            
+            // ==== AppDynamics: Begin userData injection ====
+            try {
+                const parsedUrl = new URL(url, window.location.origin);
+                 const appId = parsedUrl.searchParams.get("appId");
+    
+                 if (window.adrum?.setUserData && appId) {
+                    adrum.setUserData("appId", appId);
+                }
+            } catch (e) {
+                    console.warn("Failed to parse URL or set AppD userData:", e);
+            }
+            // ==== AppDynamics: End userData injection ====
+            
+            
             fetch(url, { method: 'GET' })
                 .catch(err => console.error('Tracking call error (ignored):', err));
         } else {
