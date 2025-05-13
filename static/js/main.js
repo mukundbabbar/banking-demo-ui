@@ -51,7 +51,7 @@ async function trackExternalApiCall(endpoint) {
             try {
                 const parsedUrl = new URL(url, window.location.origin);
                  const appId = parsedUrl.searchParams.get("appId");
-    
+                console.log("----Adding user data: " + appId);
                  if (window.adrum?.setUserData && appId) {
                     adrum.setUserData("appId", appId);
                 }
