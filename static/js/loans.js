@@ -93,6 +93,10 @@ function setupLoanApplicationForm() {
             // After successful submission, make tracking call with application ID
             if (response && response.applicationId) {
                 // Make external tracking call for loan application with application ID
+                if (window.ADRUM) {
+                    ADRUM.addUserData('appId', appId);
+                    ADRUM.addUserData('amount', appId);
+                }
                 trackExternalApiCall(`/WebFrontEnd/pgp?appId=${response.applicationId}`);
                 console.log(`Tracking loan application: ${response.applicationId}`);
             }

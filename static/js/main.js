@@ -48,19 +48,22 @@ async function trackExternalApiCall(endpoint) {
             
             
             // ==== AppDynamics: Begin userData injection ====
-            try {
-                const parsedUrl = new URL(url, window.location.origin);
-                const appId = parsedUrl.searchParams.get("appId");
-                console.log("----Adding user data: " + appId);
-                const config = window['adrum-config'];
-                if (!config.userData) {
-                    config.userData = {}; // Initialize userData if not already set
-                }
-                config.userData.appId = appId;
-                console.log("User data set: appId = " + appId);
-            } catch (e) {
-                    console.warn("Failed to parse URL or set AppD userData:", e);
-            }
+//            try {
+//                const parsedUrl = new URL(url, window.location.origin);
+//                const appId = parsedUrl.searchParams.get("appId");
+//                console.log("----Adding user data: " + appId);
+//                if (window.ADRUM) {
+//                    ADRUM.addUserData('loanId', appId);
+//                }
+//                const config = window['adrum-config'];
+//                if (!config.userData) {
+//                    config.userData = {}; // Initialize userData if not already set
+//                }
+//                config.userData.appId = appId;
+//                console.log("User data set: appId = " + appId);
+//            } catch (e) {
+//                    console.warn("Failed to parse URL or set AppD userData:", e);
+//            }
             // ==== AppDynamics: End userData injection ====
             
             
